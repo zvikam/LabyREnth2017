@@ -4,9 +4,9 @@ When we unzip the challange file, we get a single document: find_bbz_challenge_f
 
 We open it using LibreOffice Writer, and we see it contains an embedded document.
 
-we Double-click it to open, and then navigate to the macro editor (Tools -> Macros -> Edit Macros)
+Double-click it to open, and then navigate to the macro editor (Tools -> Macros -> Edit Macros) to find several macros:
 
-We find several macros: Document_Open is not very interesting, but another VBA module contains a more interesting-looking macro:
+Document_Open is not very interesting, but another VBA module contains a more interesting-looking macro:
 
 ```vbnet
 Rem Attribute VBA_ModuleType=VBAModule
