@@ -2,7 +2,7 @@
 
 Our challange is to write some code that splays Connect-4 agains the server.
 
-The challange here is to out-smart the "evolving" server, but also fast enough, as there is a time limit on our processing time.
+The challange here is to out-smart the "evolving" server, but also be fast enough, as there is a time limit on our processing time.
 
 The code uses a simple MiniMax implementation with a depth limit of 3 moves, which is not optimal but is required, probably because the implementation is not very optimized.
 
