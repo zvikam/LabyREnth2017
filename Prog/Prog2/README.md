@@ -1,10 +1,10 @@
 # Programming track - Challange #2
 
-Our challange is to write some code that splays Connect-4 agains the server.
+Our challange is to write some code that plays Connect-4 against the server.
 
-The challange here is to out-smart the "evolving" server, but also fast enough, as there is a time limit on our processing time.
+The challange here is to outsmart the "evolving" server, and also be fast enough, as there is a limit on our processing time.
 
-The code uses a simple MiniMax implementation with a depth limit of 3 moves, which is not optimal but is required, probably because the implementation is not very optimized.
+The code uses a simple MiniMax implementation with a depth limit of 3 moves, which is not optimal but is required, probably because the implementation is not very efficient.
 
 Main loop
 ```python
