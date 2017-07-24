@@ -1,7 +1,9 @@
 # Documents track - Challange #1
 
-When we unzip the challange file, we get a single document: find_bbz_challenge_file.rtf
+When we unzip the challange file, we get a single document: find_bbz_challenge_file.rtf .
+
 We open it using LibreOffice Writer, and we see it contains an embedded document.
+
 we Double-click it to open, and then navigate to the macro editor (Tools -> Macros -> Edit Macros)
 
 We find several macros: Document_Open is not very interesting, but another VBA module contains a more interesting-looking macro:
@@ -54,7 +56,7 @@ XiMn = jlETByoSKP(Array(21, 21, 15, 60, 104, 89, 5, 82, 108, 89, 90, 14, 3, 124,
 Application.UserAddress = XiMn
 End Function
 ```
-Since we're on a Linux box, we translate it to Python (this will prove useful later...):
+Since we're on a Linux box and we like Python, we translate it to Python (this will prove useful later...):
 ```python
 import sys
 
@@ -89,7 +91,7 @@ def dLMNiMbhMkYVvgR():
 if __name__ == '__main__':
     dLMNiMbhMkYVvgR()
 ```
-We're still missing some data, which turns out to be the document properties (file -> Properties -> Custom Properties):
+We're still missing some data, which turns out to be the document properties (File -> Properties -> Custom Properties):
 
 ```python
 Info='8535297daa9f55f6c7e7e59af82908bb47eedc7d8a877b559211a0e25e71168e'
