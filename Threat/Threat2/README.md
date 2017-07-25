@@ -121,7 +121,7 @@ for l, scommon in suspects.iteritems():
             d += 2
         print '[%u/%u]' % (pdata.count('?'), len(pdata)), pdata
 ```
-Basically, if a nibble ("half-byte" is identical in all the samples then it is written to the final array, otherwise a wildcard ('?') is written
+Basically, if a nibble ("half-byte") is identical in all the samples then it is written to the final array, otherwise a wildcard ('?') is written
 
 And so, we get
 ```
