@@ -86,10 +86,10 @@ Each cell is a char representing its content:
 * 'X' = dead-end
 * '^', '>', 'V', '<' = player
 ```python
-	w = 64
-	h = 64
-	maze = [['.' for x in range(w)] for y in range(h)]
-	maze[location[1]][location[0]] = dirnames[direction]
+    w = 64
+    h = 64
+    maze = [['.' for x in range(w)] for y in range(h)]
+    maze[location[1]][location[0]] = dirnames[direction]
 ```
 We also keep a "shadow" copy of the maze with a counter of how many times we visited each cell. This helps us decide which direction to go when faced with multiple corridors.
 ```python
