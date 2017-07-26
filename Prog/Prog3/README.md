@@ -69,14 +69,14 @@ if __name__ == '__main__':
 ```
 Let's define a few auxiliary variables that will help us while we navigate the maze
 ```python
-    # location changes when moving in each direction [ X-diff, Y-diff ]
-    directions = [ [0,-1], [1,0], [0,1], [-1,0] ]
-    # direction names in human-readable format
-    dirnames = [ '^', '>', 'V', '<' ]
-    # initial direction is RIGHT ('>')
-    direction = 1
-    # initial location
-    location = [ 1, 1 ]
+# location changes when moving in each direction [ X-diff, Y-diff ]
+directions = [ [0,-1], [1,0], [0,1], [-1,0] ]
+# direction names in human-readable format
+dirnames = [ '^', '>', 'V', '<' ]
+# initial direction is RIGHT ('>')
+direction = 1
+# initial location
+location = [ 1, 1 ]
 ```
 We define our maze anarbitrary initial size of 64x64, where the upper left corner is (0,0) and X grows to the right (and Y grows 'down), so we start at (1,1).
 Each cell is a char representing its content:
@@ -86,15 +86,15 @@ Each cell is a char representing its content:
 * 'X' = dead-end
 * '^', '>', 'V', '<' = player
 ```python
-    w = 64
-    h = 64
-    maze = [['.' for x in range(w)] for y in range(h)]
-    maze[location[1]][location[0]] = dirnames[direction]
+w = 64
+h = 64
+maze = [['.' for x in range(w)] for y in range(h)]
+maze[location[1]][location[0]] = dirnames[direction]
 ```
 We also keep a "shadow" copy of the maze with a counter of how many times we visited each cell. This helps us decide which direction to go when faced with multiple corridors.
 ```python
-    visits = [[0 for x in range(w)] for y in range(h)]
-    visits[location[1]][location[0]] = 1
+visits = [[0 for x in range(w)] for y in range(h)]
+visits[location[1]][location[0]] = 1
 ```
 Next, we'll check the response the server gave us and update our 2D map accordingly.
 ```python
@@ -144,19 +144,19 @@ So turning *right* becomes `new_direction = (direction + 1) % len(directions)` w
 
 After we've updated the maze, we need to figure out where we should go next. We check all the cells around our current location, and grade them according to the information we have. We then choose the cell with the lowest score.
 ```python
-    grade = []
-    for i in [0, 1, 3, 2]:
-        # find out where we've never been and go there
-        d = (direction + i) % len(directions)
-        c = maze[location[1]+directions[d][1]][location[0]+directions[d][0]];
-        v = visits[location[1]+directions[d][1]][location[0]+directions[d][0]];
-        g = { '#': 9999, 'o': v, '.': 0, 'X': 9998}[c]
-        grade.append({'dir': i, 'grade': g})
-    m = min(grade, key=lambda k: k['grade'])
-    if m['grade'] == 9999:
-        print "STUCK!"
-        return
-    moves.append(valid_moves[m['dir']])
+grade = []
+for i in [0, 1, 3, 2]:
+    # find out where we've never been and go there
+    d = (direction + i) % len(directions)
+    c = maze[location[1]+directions[d][1]][location[0]+directions[d][0]];
+    v = visits[location[1]+directions[d][1]][location[0]+directions[d][0]];
+    g = { '#': 9999, 'o': v, '.': 0, 'X': 9998}[c]
+    grade.append({'dir': i, 'grade': g})
+m = min(grade, key=lambda k: k['grade'])
+if m['grade'] == 9999:
+    print "STUCK!"
+    return
+moves.append(valid_moves[m['dir']])
 ```
 In case we're sorrounded by walls (because the game cheats!!!), we just give up.
 
@@ -165,32 +165,32 @@ This is where we should have added some logic to detect the impending "cheat" an
 
 The last step is to act according to the selected step
 ```python
-    # mark current location as visited
-    maze[location[1]][location[0]] = 'o'
-    # increment visits counter
+# mark current location as visited
+maze[location[1]][location[0]] = 'o'
+# increment visits counter
+visits[location[1]][location[0]] += 1
+if move == 'w':
+    # walk forward, but don't walk into a wall
+    if not wall:
+        location[0] += directions[direction][0]
+        location[1] += directions[direction][1]
+if move == 's':
+    # walk backwards
     visits[location[1]][location[0]] += 1
-    if move == 'w':
-        # walk forward, but don't walk into a wall
-        if not wall:
-            location[0] += directions[direction][0]
-            location[1] += directions[direction][1]
-    if move == 's':
-        # walk backwards
-        visits[location[1]][location[0]] += 1
-        location[0] -= directions[direction][0]
-        location[1] -= directions[direction][1]
-    elif move == 'd':
-        # turn right
-        direction = (direction + 1) % len(directions)
-    elif move == 'a':
-        # turn left
-        direction = (direction + len(directions) - 1) % len(directions)
+    location[0] -= directions[direction][0]
+    location[1] -= directions[direction][1]
+elif move == 'd':
+    # turn right
+    direction = (direction + 1) % len(directions)
+elif move == 'a':
+    # turn left
+    direction = (direction + len(directions) - 1) % len(directions)
 
-    # update player's 'icon' to match facing direction
-    maze[location[1]][location[0]] = dirnames[direction]
+# update player's 'icon' to match facing direction
+maze[location[1]][location[0]] = dirnames[direction]
 
-    allmoves.append(move)
-    conn.send(move)
-    move_count += 1
+allmoves.append(move)
+conn.send(move)
+move_count += 1
 ```
 ... and that's as far as I got.
