@@ -160,8 +160,7 @@ moves.append(valid_moves[m['dir']])
 ```
 In case we're sorrounded by walls (because the game cheats!!!), we just give up.
 
-**NOTE**
-This is where we should have added some logic to detect the impending "cheat" and avoid it.
+**NOTE**: This is where we should have added some logic to detect the impending "cheat" and avoid it.
 
 The last step is to act according to the selected step
 ```python
