@@ -32,51 +32,51 @@ MAZE_SERVER = ('34.211.117.64', 16000)
 RECV_SIZE = 8192
 
 def main():
-	conn = socket.create_connection(MAZE_SERVER)
-	response = conn.recv(RECV_SIZE)
+    conn = socket.create_connection(MAZE_SERVER)
+    response = conn.recv(RECV_SIZE)
 
-	complete = False
-	cont = False
+    complete = False
+    cont = False
 
-	while True:
-		print response
-		complete = False
-		# Do a thing here.
-		response_lines = response.splitlines()
-		if cont and not complete:
-			complete = True
-			cont = False
-		
-		if response_lines[0].startswith('Invalid movement'):
-			return
-		
-		if response_lines[0].startswith('-----------------------------------------'):
-			wall = True
+    while True:
+        print response
+        complete = False
+        # Do a thing here.
+        response_lines = response.splitlines()
+        if cont and not complete:
+            complete = True
+            cont = False
 
-		if response_lines[len(response_lines)-1].startswith('-----------------------------------------') or response_lines[len(response_lines)-1].startswith('The possible moves are'):
-			complete = True
+        if response_lines[0].startswith('Invalid movement'):
+            return
 
-		if not complete:
-			cont = True
-			print "damn socket"
-		else:
-			conn.send(move)
+        if response_lines[0].startswith('-----------------------------------------'):
+            wall = True
 
-		response = conn.recv(RECV_SIZE)
+        if response_lines[len(response_lines)-1].startswith('-----------------------------------------') or response_lines[len(response_lines)-1].startswith('The possible moves are'):
+            complete = True
+
+        if not complete:
+            cont = True
+            print "damn socket"
+        else:
+            conn.send(move)
+
+        response = conn.recv(RECV_SIZE)
 
 if __name__ == '__main__':
-	main()
+    main()
 ```
 Let's define a few auxiliary variables that will help us while we navigate the maze
 ```python
     # location changes when moving in each direction [ X-diff, Y-diff ]
-	directions = [ [0,-1], [1,0], [0,1], [-1,0] ]
-	# direction names in human-readable format
-	dirnames = [ '^', '>', 'V', '<' ]
-	# initial direction is RIGHT ('>')
-	direction = 1
-	# initial location
-	location = [ 1, 1 ]
+    directions = [ [0,-1], [1,0], [0,1], [-1,0] ]
+    # direction names in human-readable format
+    dirnames = [ '^', '>', 'V', '<' ]
+    # initial direction is RIGHT ('>')
+    direction = 1
+    # initial location
+    location = [ 1, 1 ]
 ```
 We define our maze anarbitrary initial size of 64x64, where the upper left corner is (0,0) and X grows to the right (and Y grows 'down), so we start at (1,1).
 Each cell is a char representing its content:
@@ -93,8 +93,8 @@ Each cell is a char representing its content:
 ```
 We also keep a "shadow" copy of the maze with a counter of how many times we visited each cell. This helps us decide which direction to go when faced with multiple corridors.
 ```python
-	visits = [[0 for x in range(w)] for y in range(h)]
-	visits[location[1]][location[0]] = 1
+    visits = [[0 for x in range(w)] for y in range(h)]
+    visits[location[1]][location[0]] = 1
 ```
 Next, we'll check the response the server gave us and update our 2D map accordingly.
 ```python
@@ -159,6 +159,7 @@ After we've updated the maze, we need to figure out where we should go next. We 
     moves.append(valid_moves[m['dir']])
 ```
 In case we're sorrounded by walls (because the game cheats!!!), we just give up.
+
 **NOTE**
 This is where we should have added some logic to detect the impending "cheat" and avoid it.
 
@@ -184,12 +185,12 @@ The last step is to act according to the selected step
     elif move == 'a':
         # turn left
         direction = (direction + len(directions) - 1) % len(directions)
-    
+
     # update player's 'icon' to match facing direction
     maze[location[1]][location[0]] = dirnames[direction]
-    
-	allmoves.append(move)
-	conn.send(move)
-	move_count += 1
+
+    allmoves.append(move)
+    conn.send(move)
+    move_count += 1
 ```
 ... and that's as far as I got.
