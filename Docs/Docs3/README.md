@@ -203,7 +203,8 @@ $ python -c 'import sys; print sys.argv[1].decode("hex")' '676f6f2e676c2f7956327
 goo.gl/yV2tFs
 ```
 We visit this link `http://goo.gl/yV2tFs`, which turns out to be `http://www.reversing.sg/B3@chP@r7y/Part1.png` - an image which contains the left half of the complete flag image
-[logo] http://www.reversing.sg/B3@chP@r7y/Part1.png "1/2 down, 1/2 to go"
+
+"1/2 down, 1/2 to go"
 
 We now go back to our MIME email, and see we have another file to process: `secret.invite.pdf.7z`.
 
@@ -330,27 +331,27 @@ We open the file in `MonoDevelop` which reveals the C# code. We look at the code
 ```cs
 private void btnSubmit_Click (object sender, EventArgs e)
 {
-	if (!(this.txtInput.Text != "") || this.txtInput.TextLength != 16) {
-		MessageBox.Show ("Either empty string or string length is wrong!");
-		return;
-	}
-	if (Form1.xorToString (Form1.Encrypt (this.txtInput.Text, Form1.szKeyValue)) == Form1.szmidkey) {
-		string str = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.trollMum)), Form1.szKeyValue);
-		MessageBox.Show ("Do you know  " + str);
-		return;
-	}
-	if (Form1.xorToString (Form1.Encrypt (this.txtInput.Text, Form1.szKeyValue)) == Form1.szlowkey) {
-		string str2 = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.MagicNum)), Form1.szKeyValue);
-		MessageBox.Show ("Do you know  " + str2);
-		return;
-	}
-	if (Form1.xorToString (Form1.Encrypt (this.txtInput.Text, Form1.szKeyValue)) == Form1.szhighkey) {
-		string str3 = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.MagicMum)), Form1.szKeyValue);
-		MessageBox.Show ("Do you know  " + str3);
-		return;
-	}
-	string str4 = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.trollNum)), Form1.szKeyValue);
-	MessageBox.Show ("Do you know  " + str4);
+    if (!(this.txtInput.Text != "") || this.txtInput.TextLength != 16) {
+        MessageBox.Show ("Either empty string or string length is wrong!");
+        return;
+    }
+    if (Form1.xorToString (Form1.Encrypt (this.txtInput.Text, Form1.szKeyValue)) == Form1.szmidkey) {
+        string str = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.trollMum)), Form1.szKeyValue);
+        MessageBox.Show ("Do you know  " + str);
+        return;
+    }
+    if (Form1.xorToString (Form1.Encrypt (this.txtInput.Text, Form1.szKeyValue)) == Form1.szlowkey) {
+        string str2 = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.MagicNum)), Form1.szKeyValue);
+        MessageBox.Show ("Do you know  " + str2);
+        return;
+    }
+    if (Form1.xorToString (Form1.Encrypt (this.txtInput.Text, Form1.szKeyValue)) == Form1.szhighkey) {
+        string str3 = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.MagicMum)), Form1.szKeyValue);
+        MessageBox.Show ("Do you know  " + str3);
+        return;
+    }
+    string str4 = Form1.Decrypt (Form1.StringToXOR (Form1.ByteToStr (Form1.trollNum)), Form1.szKeyValue);
+    MessageBox.Show ("Do you know  " + str4);
 }
 ```
 We copy the entire code of `Doors.Form1` class to a text file, and modify `Form1` constructor: we take each `Encrypt` call, and create the reverse code for it - for every call to `xorToString(Encrypt(input,keyValue)) == key` we do `input = Decrypt(xorToString(key),keyvalue)`
